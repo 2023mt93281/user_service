@@ -25,6 +25,7 @@ This is a Node.js backend starter project for a User Service using:
    ```bash
    DATABASE_URL="mysql://username:password@localhost:3306/dbname"
    JWT_SECRET="your_jwt_secret_key"
+   PORT="any port of your choice eg:3000"
    ```
 
 4. **Initialize Prisma**
