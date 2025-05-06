@@ -1,23 +1,23 @@
-# Use the official Node.js image as the base image
-FROM node:18
+FROM node:20-slim
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Install system dependencies
+RUN apt-get update -y && apt-get install -y openssl
+RUN apt-get install -y libssl-dev
+# Set working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files and install dependencies
 COPY package*.json ./
+RUN npm install 
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+# Copy the rest of the application
 COPY . .
 
-# Expose the port the app runs on
+# Generate Prisma client (needed for DB access)
+RUN npx prisma generate
+
+# Expose the app port
 EXPOSE 3000
 
-# Set environment variable to bind the server to 0.0.0.0
-ENV HOST 0.0.0.0
-
-# Start the application
+# Start the server
 CMD ["npm", "start"]
